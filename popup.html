@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-ui-theme="rounded-modern">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DualTube</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-logo" src="icons/icon128.png" alt="">
+        <div class="brand-copy">
+          <strong>DualTube</strong>
+          <small>YouTube in Two Languages</small>
+        </div>
+      </div>
+      <button id="settingsButton" class="icon-button" type="button" aria-label="Open settings" title="Appearance settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.2 3.5-.1-1.2 2-1.5-2-3.4-2.5 1a8.3 8.3 0 0 0-2-1.2L15.3 3h-4.1l-.4 2.7a8 8 0 0 0-2 1.2l-2.5-1-2 3.4 2 1.5a8 8 0 0 0 0 2.4l-2 1.5 2 3.4 2.5-1a8 8 0 0 0 2 1.2l.4 2.7h4.1l.4-2.7a8.3 8.3 0 0 0 2-1.2l2.5 1 2-3.4-2-1.5.1-.6.1-.6Z"/></svg>
+      </button>
+    </header>
+
+    <section class="power-card card">
+      <div>
+        <strong>Enable Dual Subtitles</strong>
+        <small>Show two subtitle languages together</small>
+      </div>
+      <label class="power-switch" title="Enable Dual Subtitles">
+        <input id="enabled" type="checkbox">
+        <span class="switch-track" aria-hidden="true"></span>
+      </label>
+    </section>
+
+    <section class="language-card card">
+      <label class="field">
+        <span>From (Original)</span>
+        <select id="sourceLanguage"></select>
+      </label>
+      <button id="swapLanguages" class="swap" type="button" title="Swap languages" aria-label="Swap languages">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12m0 0-3-3m3 3-3 3M17 17H5m0 0 3-3m-3 3 3 3"/></svg>
+      </button>
+      <label class="field">
+        <span>To (Translation)</span>
+        <select id="targetLanguage"></select>
+      </label>
+    </section>
+
+    <section class="display-card">
+      <div class="segments" id="displaySegments" aria-label="Subtitle display">
+        <button type="button" data-value="both"><span class="lines-icon">☷</span>Both</button>
+        <button type="button" data-value="original"><span class="lines-icon">☷</span>Original</button>
+        <button type="button" data-value="translation"><span class="lines-icon">☷</span>Translation</button>
+      </div>
+    </section>
+
+    <section class="settings-card card">
+      <div class="setting-row">
+        <div class="setting-title"><span class="setting-icon">Aa</span><span>Text Size</span></div>
+        <div class="range-wrap"><input id="fontSize" type="range" min="18" max="46" step="1" aria-label="Subtitle text size"><output id="fontSizeOutput"></output></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-title"><span class="setting-icon checker-icon"></span><span>Background</span></div>
+        <div class="range-wrap"><input id="backgroundOpacity" type="range" min="0" max="0.9" step="0.05" aria-label="Subtitle background opacity"><output id="backgroundOpacityOutput"></output></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-title">
+          <svg class="row-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>
+          <span>Timing</span>
+        </div>
+        <select id="captionFlow" class="inline-select" aria-label="Subtitle timing">
+          <option value="phrase">Whole sentences</option>
+          <option value="live">Live cues</option>
+        </select>
+      </div>
+      <div class="setting-row last-row">
+        <div class="setting-title">
+          <svg class="row-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>YouTube Captions</span>
+        </div>
+        <button id="forceCc" class="cc-btn" type="button" title="Turn YouTube captions on"><span>CC</span></button>
+      </div>
+    </section>
+
+    <div class="fixed-note"><span>Centered subtitles</span><i></i><span>Original first</span></div>
+
+    <footer class="footer-actions">
+      <button id="helpButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.4 2.4 0 1 1 3.7 2c-1 .7-1.5 1.1-1.5 2.2M12 17h.01"/></svg>
+        <span>Help</span>
+      </button>
+      <span class="footer-divider"></span>
+      <button id="supportBtn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z"/></svg>
+        <span>Support</span>
+      </button>
+      <span class="footer-divider"></span>
+      <button id="rateButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>
+        <span>Rate</span>
+      </button>
+    </footer>
+  </main>
+
+  <div id="settingsOverlay" class="dialog-overlay" hidden>
+    <section class="dialog theme-dialog" role="dialog" aria-modal="true" aria-labelledby="appearanceTitle">
+      <div class="dialog-head">
+        <div><strong id="appearanceTitle">Appearance</strong><small>Theme applies to the popup and YouTube panel.</small></div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button>
+      </div>
+      <div class="theme-section">
+        <span class="theme-label">Light</span>
+        <div class="theme-grid">
+          <button class="theme-choice" type="button" data-theme-choice="clean-light"><i class="theme-swatch swatch-clean"></i><span><strong>Clean Light</strong><small>Bright & crisp</small></span><b>✓</b></button>
+          <button class="theme-choice" type="button" data-theme-choice="rounded-modern"><i class="theme-swatch swatch-rounded"></i><span><strong>Rounded Modern</strong><small>Soft & polished</small></span><b>✓</b></button>
+          <button class="theme-choice" type="button" data-theme-choice="colorful-gradient"><i class="theme-swatch swatch-gradient"></i><span><strong>Colorful Gradient</strong><small>Warm & lively</small></span><b>✓</b></button>
+        </div>
+      </div>
+      <div class="theme-section">
+        <span class="theme-label">Dark</span>
+        <div class="theme-grid">
+          <button class="theme-choice" type="button" data-theme-choice="dark-glass"><i class="theme-swatch swatch-glass"></i><span><strong>Dark Glass</strong><small>Glossy & cinematic</small></span><b>✓</b></button>
+          <button class="theme-choice" type="button" data-theme-choice="minimal-compact"><i class="theme-swatch swatch-compact"></i><span><strong>Minimal Compact</strong><small>Blue & space-saving</small></span><b>✓</b></button>
+          <button class="theme-choice" type="button" data-theme-choice="dark-minimal"><i class="theme-swatch swatch-minimal"></i><span><strong>Dark Minimal</strong><small>Quiet & focused</small></span><b>✓</b></button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="infoOverlay" class="dialog-overlay" hidden>
+    <section class="dialog info-dialog" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+      <div class="dialog-head">
+        <div><strong id="infoTitle">DualTube Help</strong><small id="infoSubtitle">Quick guide</small></div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button>
+      </div>
+      <div id="infoContent" class="info-content"></div>
+      <button id="infoPrimary" class="primary-action" type="button" hidden></button>
+    </section>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
